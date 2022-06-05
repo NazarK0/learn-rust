@@ -1,40 +1,19 @@
-use std::io;
-use std::cmp::Ordering;
-use rand::Rng;
-
 fn main() {
-    println!("Вгадай число!");
+  let mut x = 5;
+  println!("x= {}", x);
+  x = 6;
+  println!("x= {}", x);
 
-    let secret_number = rand::thread_rng().gen_range(1..101);
+  const THREE_HOURS_IN_SECONDS: u32 = 60 * 60 * 3;
+  println!("3 hours= {} in secons", THREE_HOURS_IN_SECONDS);
 
-    loop {
-        println!("Будь ласка введіть число.");
-    
-        let mut guess = String::new();
-    
-        io::stdin()
-            .read_line(&mut guess)
-            .expect("Помилка читання рядка");
-    
-        let guess: u32 = match guess.trim().parse() {
-            Ok(num) => num,
-            Err(_) => {
-                println!("Помилка вводу!");
-                continue;
-            },
-        };
-        
-        println!("Ваша спроба: {}", guess);
-    
-        match guess.cmp(&secret_number) {
-            Ordering::Less => println!("Занадто мале число"),
-            Ordering::Greater => println!("Занадто велике число"),
-            Ordering::Equal => {
-                println!("Перемога!");
-                break;
-            }
-        }
-    }
+  let y = 18;
+  let y = y + 1;
 
+  {
+    let y = y * 2;
+    println!("inner y = {}", y);
+  }
+
+  println!("y = {}", y);
 }
-    
