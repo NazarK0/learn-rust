@@ -1,19 +1,9 @@
 fn main() {
-  let mut x = 5;
-  println!("x= {}", x);
-  x = 6;
-  println!("x= {}", x);
+  println!("Hello world");
 
-  const THREE_HOURS_IN_SECONDS: u32 = 60 * 60 * 3;
-  println!("3 hours= {} in secons", THREE_HOURS_IN_SECONDS);
+  another_function(8, 'm');
+}
 
-  let y = 18;
-  let y = y + 1;
-
-  {
-    let y = y * 2;
-    println!("inner y = {}", y);
-  }
-
-  println!("y = {}", y);
+fn another_function(x: i8, label: char) {
+  println!("x = {}({})", x, label);
 }
