@@ -1,47 +1,59 @@
-#[derive(Debug)]
-struct Rectangle {
-  width: u32, 
-  height: u32,
+enum IpAddrKind {
+  v4,
+  v6,
 }
 
-impl Rectangle {
-  fn area(&self) -> u32 {
-    self.width * self.height
-  }
+enum IpAddress {
+  v4(u8, u8, u8, u8),
+  v6(String),
+}
 
-  fn can_hold(&self, other :&Rectangle) -> bool {
-    self.width > other.width && self.height > other.height
-  }
+enum Message {
+  Quit,
+  Move { x: i32, y: i32},
+  Write(String),
+  ChangeColor(i32, i32, i32),
+}
 
-  fn square(size: u32) -> Rectangle {
-    Rectangle {
-      width: size,
-      height: size,
-    }
+impl Message {
+  fn call(&self) {
+    // method body
   }
+}
+
+struct IpAddr {
+  kind: IpAddrKind,
+  address: String,
 }
 
 fn main() {
-  let rect1 = Rectangle {
-    width: 30,
-    height: 50
+  let four = IpAddrKind::v4;
+  let six = IpAddrKind::v6;
+
+  let home = IpAddr {
+    kind: IpAddrKind::v4,
+    address: String::from("127.0.0.1"),
   };
 
-  let rect2 = Rectangle {
-    width: 10,
-    height: 40
-  };
+  let loopback = IpAddr {
+    kind: IpAddrKind:v6,
+    addess: String::from(":::1")
+  }
 
-  let rect3 = Rectangle {
-    width: 60,
-    height: 45
-  };
+  let home2 = IpAddress::v4(127, 0, 0, 1);
+  let loopback2 = IpAddress::v6(String::from(":::1"));
 
-  println!("Can rect1 hold rect2? {}", rect1.can_hold(&rect2));
-  println!("Can rect1 hold rect3? {}", rect1.can_hold(&rect3));
+  let m = Message::Write(String::from("Hello"));
+  m.call();
 
-  let square1 = Rectangle::square(6);
+  // the Option Enum
+  let some_number = Some(5);
+  let some_string = Some("a string");
 
-  println!("square1 is: {:#?}", square1);
+  let absent_mumber: Option<i32> = None;
+
+}
+
+fn route(ip_kind: IpAddrKind) {
 
 }
