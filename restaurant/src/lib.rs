@@ -1,3 +1,7 @@
+use std::{cmp::Ordering, array}; // nested paths
+use std::io::{self, Write};
+use std::collections::*; //get all public items
+
 mod front_of_house {
     pub mod hosting {
         pub fn add_to_waitlist() {}
@@ -10,6 +14,8 @@ mod front_of_house {
         fn take_payment() {}
     }
 }
+
+pub use crate::front_of_house::hosting;
 
 mod back_of_house {
     pub struct Breakfast {
@@ -39,24 +45,34 @@ mod back_of_house {
     fn cook_order() {}
 }
 
-use back_of_house::Appetizer;
+
+mod customer {
+    use crate::back_of_house::Appetizer;
+    use std::fmt::Result;
+    use std::io::Result as IoResult; // alias
+
+    pub fn eat_at_restaurant() {
+        let mut meal = crate::back_of_house::Breakfast::summer("Rye");
+    
+        meal.toast = String::from("Wheat");
+        println!("I'd like {} toast please", meal.toast);
+    
+        let order1 = Appetizer::Soup;
+        let order2 = crate::back_of_house::Appetizer::Salad;
+    }
+
+    // fn function1() -> Result {
+    //     // body
+    // }
+
+    // fn function2() -> IoResult<()> {
+    //     // body
+    // }
+}
 
 pub fn eat_at_restaurant() {
-    // absolute path
-    // crate::front_of_house::hosting::add_to_waitlist();
-
-    // relative path
-    // front_of_house::hosting::add_to_waitlist();
-
-    let mut meal = back_of_house::Breakfast::summer("Rye");
-
-    meal.toast = String::from("Wheat");
-    println!("I'd like {} toast please", meal.toast);
-
-    // meal.seasonal_fruit = String::from("bluberies");
-
-    let order1 = Appetizer::Soup;
-    let order2 = back_of_house::Appetizer::Salad;
+    hosting::add_to_waitlist();
 }
+
 
 fn deliver_order() {}
