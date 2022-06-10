@@ -35,6 +35,11 @@ impl Guess {
     }
 }
 
+// you could test private functions
+fn internal_adder(a: i32, b: i32) -> i32 {
+    a + b
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -85,8 +90,22 @@ mod tests {
     }
 
     #[test]
-    #[should_panic]
+    #[should_panic(expected = "Guess value must be less than 101")]
     fn greater_than_100() {
         Guess::new(300);
+    }
+
+
+    // for run this test type cargo test -- --ignored
+    // or cargo test -- --include-ignored
+    #[test]
+    #[ignore]
+    fn expensive_test() {
+        //
+    }
+
+    #[test]
+    fn interlal() {
+        assert_eq!(4, internal_adder(2, 2))
     }
 }
