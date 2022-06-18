@@ -75,7 +75,7 @@ impl State for PendingReview {
   }
 
   fn reject(self: Box<Self>) -> Box<dyn State> {
-    Box::new(Rejected {})
+    Box::new(Draft {})
   }
 }
 
@@ -97,10 +97,4 @@ impl State for Published {
   fn content<'a>(&self, post: &'a Post) -> &'a str {
     &post.content
   }
-}
-
-struct Rejected {}
-
-impl State for Rejected {
-  
 }
