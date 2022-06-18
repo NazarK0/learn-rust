@@ -3,5 +3,5 @@
 version = 3
 
 [[package]]
-name = "iterators_and_closures"
+name = "patterns"
 version = "0.1.0"
