@@ -1,10 +1,20 @@
-use std::ops;
+use std::{ops, fmt};
 
 #[derive(Debug, Copy, Clone, PartialEq)]
 struct Point {
     x: i32,
     y: i32,
 }
+
+impl fmt::Display for Point {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "({}, {})", self.x, self.y)
+    }
+}
+
+impl OutlinePrint for Point {}
+
+
 
 // example of trait Add might be implemented
 // Rhs = Self - default type parameter
@@ -64,6 +74,47 @@ impl Human {
     }
 }
 
+trait Animal {
+    fn baby_name() -> String;
+}
+
+struct Dog;
+
+impl Dog {
+    fn baby_name() -> String {
+        String::from("Spot")
+    }
+}
+
+impl Animal for Dog {
+    fn baby_name() -> String {
+        String::from("puppy")
+    }
+}
+
+// Implementing the OutlinePrint trait that
+// requires the functionality from Display
+trait OutlinePrint: fmt::Display {
+    fn outline_print(&self) {
+        let output = self.to_string();
+        let len = output.len();
+
+        println!("{}", "*".repeat(len + 4));
+        println!("*{}*", " ".repeat(len +2));
+        println!("* {} *", output);
+        println!("*{}*", " ".repeat(len + 2));
+        println!("{}", "*".repeat(len + 4));
+    }
+}
+
+struct Wrapper(Vec<String>);
+
+impl fmt::Display for Wrapper {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "[{}]", self.0.join(", "))
+    }
+}
+
 fn main() {
     // Default Generic Type Parameters and Operator Overloading
     assert_eq!(
@@ -71,9 +122,20 @@ fn main() {
         Point { x: 3, y: 3 }
     );
 
+    Point{ x: 13, y: 61 }.outline_print();
+
     // Calling Methods with the Same Name
     let person = Human;
     person.fly();
     Pilot::fly(&person);
     Wizard::fly(&person);
+
+    println!("A baby dog is called a {}", <Dog as Animal>::baby_name());
+
+    let w = Wrapper(vec![
+        String::from("hello"), 
+        String::from("world"),
+        ]);
+
+    println!("w = {}", w);
 }
