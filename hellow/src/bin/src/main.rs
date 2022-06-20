@@ -1,7 +1,7 @@
-use std::net::{TcpListener, TcpStream};
 use std::io::prelude::*;
-use std::{fs, thread};
+use std::net::{TcpListener, TcpStream};
 use std::time::Duration;
+use std::{fs, thread};
 
 use hellow::ThreadPool;
 
@@ -36,15 +36,13 @@ fn handle_connection(mut stream: TcpStream) {
 
     let contents = fs::read_to_string(filename).unwrap();
 
-
     let response = format!(
         "{}\r\nContent-Length: {}\r\n\r\n{}",
         status_line,
         contents.len(),
         contents
     );
-    
+
     stream.write(response.as_bytes()).unwrap();
     stream.flush().unwrap();
-
 }

@@ -4,6 +4,8 @@ check:
 	cargo check
 build:
 	cargo build
+fmt:
+	cargo fmt
 test:
 	cargo test
 doc:
