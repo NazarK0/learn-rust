@@ -1,3 +1,0 @@
-Hello world, hello universe!
-
-// Example: quickreplace '^[hH]ello' Rust test.txt test-modified.txt
