@@ -1,5 +1,5 @@
 [package]
-name = "pretty_sqrt"
+name = "async_http_client"
 version = "0.1.0"
 edition = "2021"
 
