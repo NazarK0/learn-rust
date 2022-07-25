@@ -2,12 +2,30 @@ use std::collections::HashMap;
 
 #[derive(Clone, PartialEq, Debug)]
 pub enum Json {
-  Null,
-  Boolean(bool),
-  Number(f64),
-  String(String),
-  Array(Vec<Json>),
-  Object(Box<HashMap<String, Json>>)
+    Null,
+    Boolean(bool),
+    Number(f64),
+    String(String),
+    Array(Vec<Json>),
+    Object(Box<HashMap<String, Json>>),
+}
+
+impl From<bool> for Json {
+    fn from(b: bool) -> Json {
+        Json::Boolean(b)
+    }
+}
+
+impl From<String> for Json {
+    fn from(s: String) -> Json {
+        Json::String(s)
+    }
+}
+
+impl<'a> From<&'a str> for Json {
+    fn from(s: &'a str) -> Json {
+        Json::String(s.to_string())
+    }
 }
 
 macro_rules! impl_from_num_for_json {
@@ -35,11 +53,11 @@ macro_rules! json {
     };
 
     ({$($key:tt:$value:tt),*}) => {
-      Json::Object(
-        Box::new(vec![
-          $(($key.to_string(), json!($value))),*
-        ].into_iter().collect())
-      )
+      {
+        let mut fields = Box::new(std::collections::HashMap::new());
+        $(fields.insert($key.to_string(), json!($value));)*
+        Json::Object(fields)
+      }
     };
 
     ($other:tt) => {
@@ -49,24 +67,22 @@ macro_rules! json {
 
 #[test]
 fn json_null() {
-  assert_eq!(json!(null), Json::Null);
+    assert_eq!(json!(null), Json::Null);
 }
 
 #[test]
 fn json_array_with_json_element() {
-  let macro_generated_value = json!(
-    [
-      { "pitch": 440.0 }
-    ]
-  );
+    let macro_generated_value = json!(
+      [
+        { "pitch": 440.0 }
+      ]
+    );
 
-  let hand_coded_value = Json::Array(vec![
-    Json::Object(Box::new(vec![
-      ("pitch".to_string(), Json::Number(440.0))
+    let hand_coded_value = Json::Array(vec![Json::Object(Box::new(
+        vec![("pitch".to_string(), Json::Number(440.0))]
+            .into_iter()
+            .collect(),
+    ))]);
 
-    ].into_iter().collect()))
-  ]);
-
-  assert_eq!(macro_generated_value, hand_coded_value);
+    assert_eq!(macro_generated_value, hand_coded_value);
 }
-

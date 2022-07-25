@@ -5,11 +5,11 @@ use json_macro::{json, Json};
 
 
 fn main() {
-    let width = 4.0;
+    let fields = "Fields, W.C.";
 
     let desc = json!({
-        "width": width,
-        "height": (width * 9.0 / 4.0)
+        "name": "John Smith",
+        "actor": fields
     });
 
     println!("{desc:#?}");
