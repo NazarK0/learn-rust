@@ -2,7 +2,7 @@ use std::os::raw::{c_int, c_char};
 use std::ffi::{CStr, CString};
 use std::{mem, ptr, env};
 
-mod raw;
+mod git;
 
 fn main() {
     let path = env::args().skip(1).next()
